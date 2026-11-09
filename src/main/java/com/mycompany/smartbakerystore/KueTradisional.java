@@ -1,14 +1,11 @@
 package com.mycompany.smartbakerystore;
 
-import com.mycompany.smartbakerystore.Kue;
-import com.mycompany.smartbakerystore.DapatDibungkus;
-
-public class KueTradisional extends Kue implements DapatDibungkus {
+public class KueTradisional extends Kue {
     private int jumlahBiji;
     private double hargaPerBiji;
 
-    public KueTradisional(String nama, int jumlahBiji, double hargaPerBiji) {
-        super(nama, jumlahBiji * hargaPerBiji);
+    public KueTradisional(String nama, int jumlahBiji, double hargaPerBiji) throws Exception {
+        super(nama, hargaPerBiji);
         this.jumlahBiji = jumlahBiji;
         this.hargaPerBiji = hargaPerBiji;
     }
@@ -19,12 +16,12 @@ public class KueTradisional extends Kue implements DapatDibungkus {
     }
 
     @Override
-    public void bungkus() {
-        System.out.println("[Kue Tradisional] Mengemas " + getNama() + " menggunakan keranjang bambu tradisional.");
+    public void jenisPenyajian() {
+        System.out.println("-> Penyajian Kue Tradisional: Disajikan di atas tampah anyaman bambu.");
     }
 
     @Override
     public String toString() {
-        return super.toString() + "\nTipe : Kue Tradisional\nJumlah Biji : " + jumlahBiji;
+        return super.toString() + "\nTipe         : Kue Tradisional\nJumlah Biji  : " + jumlahBiji;
     }
 }

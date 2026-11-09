@@ -1,133 +1,149 @@
 package com.mycompany.smartbakerystore;
 
-import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainBakery {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Kue> daftarKue = new ArrayList<>();
-        int pilihan = 0;
+        SmartBakeryStore toko = new SmartBakeryStore("Smart Bakery Store");
+        toko.bukaToko();
+
+        boolean isRunning = true;
 
         do {
             System.out.println("\n=========================================");
-            System.out.println("       MENU SMART BAKERY STORE           ");
+            System.out.println("         MENU UTAMA SMART BAKERY         ");
             System.out.println("=========================================");
-            System.out.println("1. Tambah Kue Basah");
-            System.out.println("2. Tambah Kue Kering");
-            System.out.println("3. Tambah Kue Tart");
-            System.out.println("4. Tambah Kue Tradisional");
-            System.out.println("5. Tampilkan Semua Daftar Kue & Total");
+            System.out.println("1. Tambah Produk Kue");
+            System.out.println("2. Lihat Etalase Produk");
+            System.out.println("3. Cari Kue");
+            System.out.println("4. Kelola Pelanggan");
+            System.out.println("5. Pembelian / Transaksi");
             System.out.println("6. Keluar");
             System.out.print("Pilih menu (1-6): ");
-            
-            if (scanner.hasNextInt()) {
-                pilihan = scanner.nextInt();
-                scanner.nextLine(); // Membersihkan buffer enter
-            } else {
-                System.out.println("Input tidak valid! Harap masukkan angka.");
+
+            try {
+                int pilihan = scanner.nextInt();
                 scanner.nextLine();
-                continue;
-            }
 
-            switch (pilihan) {
-                case 1:
-                    System.out.print("Masukkan Nama Kue Basah : ");
-                    String namaBasah = scanner.nextLine();
-                    System.out.print("Masukkan Berat (kg)     : ");
-                    double berat = scanner.nextDouble();
-                    System.out.print("Masukkan Harga per Kg   : Rp ");
-                    double hargaPerKilo = scanner.nextDouble();
-                    
-                    daftarKue.add(new KueBasah(namaBasah, berat, hargaPerKilo));
-                    System.out.println("-> Kue Basah berhasil ditambahkan!");
-                    break;
+                switch (pilihan) {
+                    case 1:
+                        System.out.println("\nPilih Jenis Kue:");
+                        System.out.println("1. Kue Basah");
+                        System.out.println("2. Kue Kering");
+                        System.out.println("3. Kue Tart");
+                        System.out.println("4. Kue Tradisional");
+                        System.out.print("Pilih (1-4): ");
+                        int jenis = scanner.nextInt();
+                        scanner.nextLine();
 
-                case 2:
-                    System.out.print("Masukkan Nama Kue Kering : ");
-                    String namaKering = scanner.nextLine();
-                    System.out.print("Masukkan Jumlah (pcs)    : ");
-                    int jumlahPcs = scanner.nextInt();
-                    System.out.print("Masukkan Harga per Pcs   : Rp ");
-                    double hargaPerPcs = scanner.nextDouble();
-                    
-                    daftarKue.add(new KueKering(namaKering, jumlahPcs, hargaPerPcs));
-                    System.out.println("-> Kue Kering berhasil ditambahkan!");
-                    break;
+                        System.out.print("Masukkan Nama Kue: ");
+                        String nama = scanner.nextLine();
 
-                case 3:
-                    System.out.print("Masukkan Nama Kue Tart   : ");
-                    String namaTart = scanner.nextLine();
-                    System.out.print("Masukkan Ukuran Tier     : ");
-                    double ukuranTier = scanner.nextDouble();
-                    System.out.print("Masukkan Harga Dasar Tart: Rp ");
-                    double hargaDasarTart = scanner.nextDouble();
-                    
-                    daftarKue.add(new KueTart(namaTart, ukuranTier, hargaDasarTart));
-                    System.out.println("-> Kue Tart berhasil ditambahkan!");
-                    break;
-
-                case 4:
-                    System.out.print("Masukkan Nama Kue Tradisional : ");
-                    String namaTradisional = scanner.nextLine();
-                    System.out.print("Masukkan Jumlah Biji          : ");
-                    int jumlahBiji = scanner.nextInt();
-                    System.out.print("Masukkan Harga per Biji       : Rp ");
-                    double hargaPerBiji = scanner.nextDouble();
-                    
-                    daftarKue.add(new KueTradisional(namaTradisional, jumlahBiji, hargaPerBiji));
-                    System.out.println("-> Kue Tradisional berhasil ditambahkan!");
-                    break;
-
-                case 5:
-                    if (daftarKue.isEmpty()) {
-                        System.out.println("\n[!] Belum ada data kue yang dimasukkan.");
+                        if (jenis == 1) {
+                            System.out.print("Masukkan Berat (Kg): ");
+                            double berat = scanner.nextDouble();
+                            System.out.print("Harga per Kg: Rp ");
+                            toko.tambahKue(new KueBasah(nama, berat, scanner.nextDouble()));
+                        } else if (jenis == 2) {
+                            System.out.print("Masukkan Jumlah (Pcs): ");
+                            int pcs = scanner.nextInt();
+                            System.out.print("Harga per Pcs: Rp ");
+                            toko.tambahKue(new KueKering(nama, pcs, scanner.nextDouble()));
+                        } else if (jenis == 3) {
+                            System.out.print("Masukkan Ukuran Tier: ");
+                            double tier = scanner.nextDouble();
+                            System.out.print("Harga Dasar Tart: Rp ");
+                            toko.tambahKue(new KueTart(nama, tier, scanner.nextDouble()));
+                        } else if (jenis == 4) {
+                            System.out.print("Masukkan Jumlah Biji: ");
+                            int biji = scanner.nextInt();
+                            System.out.print("Harga per Biji: Rp ");
+                            toko.tambahKue(new KueTradisional(nama, biji, scanner.nextDouble()));
+                        }
                         break;
-                    }
 
-                    double totalHargaSemua = 0;
-                    double totalDiskonSemua = 0;
+                    case 2:
+                        System.out.println("\n--- DAFTAR ETALASE PRODUK KUE ---");
+                        toko.lihatEtalase();
+                        break;
 
-                    System.out.println("\n=========================================");
-                    System.out.println("       DAFTAR PRODUK SMART BAKERY        ");
-                    System.out.println("=========================================\n");
-
-                    for (Kue k : daftarKue) {
-                        System.out.println(k.toString());
-                        double hargaFinal = k.hitungHarga();
-                        System.out.println("Harga Akhir : Rp " + hargaFinal);
-
-                        // Pengecekan Interface menggunakan instanceof
-                        if (k instanceof DapatDibungkus) {
-                            ((DapatDibungkus) k).bungkus();
+                    case 3:
+                        System.out.println("\n--- CARI KUE ---");
+                        System.out.print("Masukkan Nama Kue yg dicari: ");
+                        String keyword = scanner.nextLine();
+                        try {
+                            toko.cariKue(keyword);
+                        } catch (ProdukKueTidakDitemukanException e) {
+                            System.out.println("Peringatan: " + e.getMessage());
                         }
+                        break;
 
-                        if (k instanceof DapatDiskon) {
-                            double diskon = ((DapatDiskon) k).hitungDiskon();
-                            totalDiskonSemua += diskon;
-                            System.out.println("Diskon      : Rp " + diskon);
+                    case 4:
+                        System.out.println("\n--- KELOLA PELANGGAN ---");
+                        System.out.println("1. Tambah Pelanggan");
+                        System.out.println("2. Cari Pelanggan via ID");
+                        System.out.println("3. Lihat Semua Pelanggan");
+                        System.out.print("Pilih: ");
+                        int menuP = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (menuP == 1) {
+                            System.out.print("Masukkan ID Pelanggan: ");
+                            String id = scanner.nextLine();
+                            System.out.print("Masukkan Nama Pelanggan: ");
+                            String namaP = scanner.nextLine();
+                            toko.tambahPelanggan(new Pelanggan(id, namaP));
+                        } else if (menuP == 2) {
+                            System.out.print("Masukkan ID yg dicari: ");
+                            toko.cariPelanggan(scanner.nextLine());
+                        } else if (menuP == 3) {
+                            toko.lihatSemuaPelanggan();
                         }
+                        break;
 
-                        totalHargaSemua += hargaFinal;
-                        System.out.println("-----------------------------------------");
-                    }
+                    case 5:
+                        System.out.println("\n--- SISTEM TRANSAKSI ---");
+                        System.out.print("Masukkan ID Pelanggan: ");
+                        String idPelanggan = scanner.nextLine();
+                        Pelanggan pembeli = toko.getPelanggan(idPelanggan);
 
-                    System.out.println("\n=========================================");
-                    System.out.println("TOTAL KESELURUHAN");
-                    System.out.println("Total Harga  : Rp " + totalHargaSemua);
-                    System.out.println("Total Diskon : Rp " + totalDiskonSemua);
-                    System.out.println("=========================================");
-                    break;
+                        if (pembeli == null) {
+                            System.out.println("Gagal: Pelanggan belum terdaftar!");
+                        } else if (toko.getJumlahKue() == 0) {
+                            System.out.println("Gagal: Etalase masih kosong.");
+                        } else {
+                            toko.lihatEtalase();
+                            System.out.print("Pilih Nomor Kue yg ingin dibeli: ");
+                            int idx = scanner.nextInt() - 1;
+                            scanner.nextLine();
 
-                case 6:
-                    System.out.println("Terima kasih telah menggunakan Smart Bakery Store!");
-                    break;
+                            if (idx >= 0 && idx < toko.getJumlahKue()) {
+                                Kue kuePilihan = toko.getKueInt(idx);
+                                TransaksiPembelian.prosesBeli(pembeli, kuePilihan);
+                            } else {
+                                System.out.println("Nomor produk tidak valid!");
+                            }
+                        }
+                        break;
 
-                default:
-                    System.out.println("Pilihan tidak valid. Silakan pilih angka 1-6.");
+                    case 6:
+                        System.out.println("Terima kasih telah menggunakan Smart Bakery Store!");
+                        isRunning = false;
+                        break;
+
+                    default:
+                        System.out.println("Pilihan tidak valid.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("[!] ERROR INPUT: Harap masukkan angka yang valid.");
+                scanner.nextLine();
+            } catch (Exception e) {
+                System.out.println("[!] SYSTEM ERROR: " + e.getMessage());
             }
-        } while (pilihan != 6);
-        
+        } while (isRunning);
+
         scanner.close();
     }
 }

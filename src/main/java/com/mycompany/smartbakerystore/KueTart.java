@@ -1,14 +1,10 @@
 package com.mycompany.smartbakerystore;
 
-import com.mycompany.smartbakerystore.Kue;
-import com.mycompany.smartbakerystore.DapatDiskon;
-import com.mycompany.smartbakerystore.DapatDibungkus;
-
 public class KueTart extends Kue implements DapatDibungkus, DapatDiskon {
-    private double ukuranTier; // Ukuran/tingkat tart
+    private double ukuranTier;
     private double hargaDasarTart;
 
-    public KueTart(String nama, double ukuranTier, double hargaDasarTart) {
+    public KueTart(String nama, double ukuranTier, double hargaDasarTart) throws Exception {
         super(nama, hargaDasarTart);
         this.ukuranTier = ukuranTier;
         this.hargaDasarTart = hargaDasarTart;
@@ -26,12 +22,16 @@ public class KueTart extends Kue implements DapatDibungkus, DapatDiskon {
 
     @Override
     public double hitungDiskon() {
-        // Diskon khusus tart sebesar 15%
-        return hitungHarga() * 0.15;
+        return hitungHarga() * 0.15; // Diskon 15%
+    }
+
+    @Override
+    public void jenisPenyajian() {
+        System.out.println("-> Penyajian Kue Tart: Disajikan dalam box khusus ulang tahun lengkap dengan pisau.");
     }
 
     @Override
     public String toString() {
-        return super.toString() + "\nTipe : Kue Tart\nUkuran Tier : " + ukuranTier;
+        return super.toString() + "\nTipe         : Kue Tart\nUkuran Tier  : " + ukuranTier;
     }
 }
